@@ -105,7 +105,13 @@ char (*loadFile2D(char *filename, int *size))[COLS]
 // Return the found string or NULL if not found.
 char * substringSearchAA(char *target, char **lines, int size)
 {
-
+	for (int i=0; i<size-1; i++)
+	{
+		if (strstr(lines[i], target) != NULL)
+		{
+			return target;
+		}
+	}
 	return NULL;
 }
 
@@ -118,7 +124,11 @@ char * substringSearch2D(char *target, char (*lines)[COLS], int size)
 // Free the memory used by the array
 void freeAA(char ** arr, int size)
 {
-
+	for(int i=0; i<size; i++)
+	{
+		free(arr[i]);
+	}
+	free(arr);
 }
 
 void free2D(char (*arr)[COLS])
