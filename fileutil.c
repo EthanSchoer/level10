@@ -12,6 +12,15 @@
 // For the array of arrays, 
 //    implement loadFileAA, substringSearchAA, and freeAA.
 
+void trim(char string[100])
+{
+    int i = 0;
+    while(string[i] != '\n' && string[i] != '\0')
+    {
+        i++;
+    }
+    string[i] = '\0';
+}
 
 // Load the text file from the given filename.
 // Return a pointer to the array of strings.
@@ -35,12 +44,37 @@ char ** loadFileAA(char *filename, int *size)
 	//   Copy each line into the string (use strcpy).
 	//   Attach the string to the large array (assignment =).
     // Close the file.
+	int numLines = 1;
+	int capacity = 10;
+	char **arr = malloc(capacity * sizeof(char*));
+	char string[100];
+	printf("test print");
+	while(!feof(in))
+	{
+		char *line = malloc(100);
+		if (numLines>capacity)
+		{
+			arr = realloc(arr,capacity * sizeof(char*));
+			capacity++;
+		}
+		if (fgets(line, 100, in) != NULL)
+		{
+			trim(line);
+			int length = strlen(line);
+			arr[numLines-1] = malloc(length+1);
+			strcpy(arr[numLines-1], line); //
+			numLines++;
+		}
+	}
 	
+	fclose(in);
+
 	// The size should be the number of entries in the array.
-	*size = 0;
+	*size = capacity;
 	
 	// Return pointer to the array of strings.
-	return NULL;
+	printf("%d", *size);
+	return arr;
 }
 
 char (*loadFile2D(char *filename, int *size))[COLS]
